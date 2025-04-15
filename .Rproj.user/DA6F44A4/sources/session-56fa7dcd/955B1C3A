@@ -1,0 +1,25 @@
+{
+    "id": "955B1C3A",
+    "path": null,
+    "project_path": null,
+    "type": "r_code_browser",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1744749947386.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "context": ".GlobalEnv:::checkTables"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 2186805811928,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1744749947386,
+    "read_only": false,
+    "read_only_alternatives": []
+}
