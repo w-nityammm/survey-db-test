@@ -5,6 +5,8 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
+db_password <- Sys.getenv("DB_PASSWORD")
+
 connectToDB <- function() {
   tryCatch({
     con <- dbConnect(
@@ -13,7 +15,7 @@ connectToDB <- function() {
       host = "localhost",
       port = 5432,
       user = "postgres",
-      password = ""
+      password = db_password
     )
     message("Successfully connected to the database!")
     return(con)
