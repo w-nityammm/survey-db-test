@@ -83,7 +83,7 @@ transform_nwfsc_data <- function(nwfsc_data) {
   haul_data <- haul_raw %>%
     dplyr::select(
       trawl_id,
-      date_formatted,
+      date = date_formatted,
       pass,
       vessel,
       lat_start = vessel_start_latitude_dd,
@@ -97,6 +97,35 @@ transform_nwfsc_data <- function(nwfsc_data) {
     )
 
   haul_data$effort_units <- "ha"
+
+  unique_species <- catch_raw %>%
+    distinct(scientific_name)
+
+  spp <- unique_species
+
+  get_itis <- function(spp) {
+    tryCatch({
+      Sys.sleep(0.2)
+      out <- taxize::get_tsn(spp, accepted = FALSE, verbose = FALSE)
+      if (is.na(out[1]) || length(out) == 0) {
+        return(NA_integer_)
+      }
+      return(as.integer(out[1]))
+    }, error = function(e) {
+      message("Error retrieving ITIS code for ", spp, ": ", e$message)
+      return(NA_integer_)
+    })
+  }
+
+  species_data <- unique_species
+  species_data$species_id <- NA_integer_
+
+  for (i in 1:nrow(species_data)) {
+    species_name <- species_data$scientific_name[i]
+    message("Processing species ", i, " of ", nrow(species_data), ": ", species_name)
+    species_data$species_id[i] <- get_itis(species_name)
+  }
+
 }
 
 transformed_data <- transform_nwfsc_data(nwfsc_data)
